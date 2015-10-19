@@ -1,0 +1,116 @@
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{pdflscape}
+\setlength{\textwidth}{165mm}
+\setlength{\textheight}{235mm}
+\setlength{\oddsidemargin}{-0mm}
+\setlength{\topmargin}{-10mm}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother	
+
+\newcommand*{\Value}{\frac{1}{2}x^2}%
+%\usepackage{graphicx}
+\usepackage{graphicx}
+\usepackage{subfigure}%exclusive to subcaption
+%\usepackage{subcaption, float} 
+\usepackage{xcolor}
+\definecolor{ggray}{RGB}{47,79,79}
+\definecolor{firebrick}{RGB}{178,34,34}
+\definecolor{green1}{RGB}{50,205,50}
+\definecolor{umbrella}{RGB}{0,191,255}
+
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{patterns,arrows,shapes,positioning,shadows,trees}
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+\tikzstyle{neglected}=[dashed]
+
+\usepackage{amsfonts}
+\usepackage{amssymb,amsmath} %  $\displaystyle \sum$ will print a bigger one Σ , like in equations  in amsmath package
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{soul}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\sffamily}
+\titleformat*{\subsection}{\large\sffamily}
+\titleformat*{\subsubsection}{\itshape \sffamily}
+
+
+%\renewcommand{\refname}{參考文獻}
+\usepackage[nottoc]{tocbibind}
+%\settocbibname{參考文獻}
+
+\usepackage{multirow}
+\usepackage{booktabs}
+%\usepackage[square]{natbib}
+
+\title{Cloud Programming HW02}
+\author{Ming-Chang Chiu 100060007}
+\date{\today}
+\begin{document}
+\maketitle
+\fontsize{12}{20pt}\selectfont %本行指令第一個12是字體大小、第二個20是行距，selectfont一定要加才會發生效果。但此指令只對正文有效，註解無效
+
+\section{Introduction}
+
+In this assignment, we are required to implement a basic search engine using inverted indexing and tf-idf theory. Inverted indexing is to build a table which allows us to retrieve the desired information by searching keywords. tf-idf theory is meant to calculate the importance of the keyword for us to rank the output prioirties.
+
+\section{System Details: Algorithms}
+
+The system contains two parts, inverted indexing, and information retrieval. In the first part, I have four phases:
+\begin{description}
+\item [Mapper:] In Mapper, since the MR framework will give me each line and the offset in the input file, I filter out the special notations and the make the output as (key,value) $=\>$ (word:filename, 1:offset)
+\item [Partitioner:] In this phase, I simply make the output of the starting letter of key range form 'A' to 'G' or 'a' to 'g' to part-00000 under my output directory and the rest in part-00001.
+\item [Combiner:] Since I have word of one kind and the file it reside in as key, 1:offset as value, I can calculate how many words of one kind in a file and their offsets. Therefore, my output is (word, file:term count: offset1:offset2....) in this phase.
+\item [Reducer:] The MR frame work will group keys of the same word for me so I simply concatenate the values and then calculate the document numbers. So, my final output is (word:document count, filename1:term count1:offset1:offset2...; filename2....;......).
+
+For the second part, I have not much to say about it. I just use HDFS API to retrieve the table stored in my output directory and then search for the result. The interesting part is to google the HDFS API to manipulate the HDFS files, and the calculate the tf-idf for the keywords. Finally the program should print the line segments by parsing the inverted index table. But I cannot think of any dazzling algorithm or fancy implementation in sum.
+\end{description}
+
+\section{Usage}
+In my directory, there are multiple .sh files in it, compile.sh, compile2.sh, execute.sh, and execute2.sh. To build the inverted index, first user should make sure there are input files on HDFS, then type "sh compile.sh  \&\& sh execute.sh" in the command line, and this command shall run a hadoop job named "inverted index" and them output my inverted index on the screen. Notice that first letters of words starting from 'a'~'g', 'A'~'G' are stored in /indexOutput/part-00000, and the rest are in /indexOutput/part-00001. 
+
+To retrieve the information, simply type "sh compile2.sh  \&\& sh execute2.sh" in the command line, the command line will then ask you to type in keywords you want to search. After you enter the keywords, no matter uppercase or lowercase, the program will print out the results of the first keyword ranked by tf-idf and then those of latter keywords in the same way. Notice that each keyword MUST be separated by a comma(i.e. ',')with no other extra redundant letters. I did not do much work on preventing illegal input.
+Easier said than done, a screen shot would be more helpful:
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=1\textwidth]{./compile.png}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=1\textwidth]{./compile2.png}
+\end{figure}
+
+{\bf Notice:} In order to run correctly on each directory, one should check those 4 .sh files for the directory names. And one should modify the retrieval/ReadFile.java for the HDFS paths. The above description is based on my working directory on Quanta006.
+\section{Questions}
+
+\begin{description}
+\item [How many phases I use in part1? Is there any other way to do it? 
+What’s the pros and cons?] 
+	I use four phases in part1, Mapper, Partitioner, Combiner, Reducer. Using partitioner to discriminate words from different starting letters is easier for me to debug, for instance, if my keyword is "youth," then I can go to part-00001 to examine my inverted index table. Using Combiner is to count the term count can be more efficient.
+\item [What’s the most difficult part in your implementation? What’s your extension?] 
+	I think it is part1, building full inverted index table. I have to fully understand the structure of inverted index and every detail about MapReduce API like Reporter, TextInputFormat and so on. I was not familiar with Java so it took me even more time to process the String, Array, Set, etc, in part1. To me, the tricky part is to come up with a the flow chart, like, what is the output of Mapper, what should be done in Combiner.
+	I did a basic action on preventing user to enter word that is not in the table.
+\item[How do you filter those useless notation?] I simply use tokenizer's built-in function, I provide delimiters and let the Java API to help me. 
+\item[If we need to search these special notations, how to modify your filter?]
+	If we are required to find those special notations, I can use Pattern and Matcher APIs provided by Java to find them and locate them, it is not very hard to implement.
+\end{description}
+
+\end{document} 

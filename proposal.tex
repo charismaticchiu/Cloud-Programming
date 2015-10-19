@@ -1,0 +1,96 @@
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{pdflscape}
+\setlength{\textwidth}{165mm}
+\setlength{\textheight}{235mm}
+\setlength{\oddsidemargin}{-0mm}
+\setlength{\topmargin}{-10mm}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother	
+
+\newcommand*{\Value}{\frac{1}{2}x^2}%
+%\usepackage{graphicx}
+\usepackage{graphicx}
+\usepackage{subfigure}%exclusive to subcaption
+%\usepackage{subcaption, float} 
+\usepackage{xcolor}
+\definecolor{ggray}{RGB}{47,79,79}
+\definecolor{firebrick}{RGB}{178,34,34}
+\definecolor{green1}{RGB}{50,205,50}
+\definecolor{umbrella}{RGB}{0,191,255}
+
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{patterns,arrows,shapes,positioning,shadows,trees}
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+\tikzstyle{neglected}=[dashed]
+
+\usepackage{amsfonts}
+\usepackage{amssymb,amsmath} %  $\displaystyle \sum$ will print a bigger one Σ , like in equations  in amsmath package
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{soul}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\sffamily}
+\titleformat*{\subsection}{\large\sffamily}
+\titleformat*{\subsubsection}{\itshape \sffamily}
+
+
+%\renewcommand{\refname}{參考文獻}
+\usepackage[nottoc]{tocbibind}
+%\settocbibname{參考文獻}
+
+\usepackage{multirow}
+\usepackage{booktabs}
+%\usepackage[square]{natbib}
+
+\title{Cloud Programming: Group 06 Final Project Proposal}
+\author{Ming-Chang Chiu 100060007\\Mack Teng 100060025}
+\date{\today}
+\begin{document}
+\maketitle
+\fontsize{12}{20pt}\selectfont %本行指令第一個12是字體大小、第二個20是行距，selectfont一定要加才會發生效果。但此指令只對正文有效，註解無效
+
+\section{Introduction}
+
+In this project we are going to develop a recommender system using MapReduce framework. A research group from Stanford University provides millions of data from amazon, which are clearly categorized and consist of important informations such as prices, ratings, reviews, etc.. We aims to mine this massive dataset and discern if there are follow-the-leader effects with those reviews. We are going to find out whether follow-the-leader effect exists with respect to category or to product, and if the effect is conspicuous then we can tell amazon the improve the recommender system or for future market use.
+
+\section{System Details}
+
+We will develop two layers of analysis. 
+First, the judgement of reviews. The system should be able to discern a reviewer's attitude toward a commodity based on his rating and text review.
+Second, the review pattern. We ought to discover whether certain category or certain kind of product would have follow-the-leader effect.
+
+\section{Components of the system}
+
+\begin{description}
+\item [Algorithm:]  We will first find or develop a NLP(Natural Language Processing) algorithm which can tell us what is the stance of a certain review about a product and algorithms that can find patterns of reviews.
+\item [Platform:] Our work will be constructed on AWS using S3, ELB, and so on.
+\item [Web Interface:] Eventually, we will write a simple interface giving users the right to arbitrarily create a product which can be categorized and then see the result we predict.
+\end{description}
+
+\section{Expected Results}
+
+\begin{description}
+\item [Input:]  Users can create a product, put it in any category of amazon and write a review and set a rating manually.
+\item [Output:] The system should tell us whether our review is a positive or negative one, and whether this review will affect later customers' opinion about it.
+\end{description}
+
+\end{document} 

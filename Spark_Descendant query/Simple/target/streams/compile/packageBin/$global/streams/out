@@ -1,0 +1,21 @@
+[0m[[0minfo[0m] [0mPackaging /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/simple-project_2.10-1.0.jar ...[0m
+[0m[[0mdebug[0m] [0mInput file mappings:[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$4.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$4.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$1.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$1.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$main$1$$anonfun$3.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$main$1$$anonfun$3.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$main$1$$anonfun$apply$mcVI$sp$1.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$main$1$$anonfun$apply$mcVI$sp$1.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$main$1.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$main$1.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$2.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$2.class[0m
+[0m[[0mdebug[0m] [0m	SimpleApp$$anonfun$main$2.class[0m
+[0m[[0mdebug[0m] [0m	  /home/cloud2015/100060007/Lab4/Simple/target/scala-2.10/classes/SimpleApp$$anonfun$main$2.class[0m
+[0m[[0minfo[0m] [0mDone packaging.[0m
